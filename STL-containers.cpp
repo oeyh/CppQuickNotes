@@ -1,6 +1,16 @@
 /************************************************************************/
 /************* C++ STL (Standard Template Library) Containers ***************/
 
+// The container classes fall into three basic categories: Sequence containers, Associative containers, and Container adapters
+// Sequence: array, vector, deque, etc.
+// Associative: set, map
+// Adapters: stack, queue, priority queue
+
+// STL iterators
+// Operator* -- Dereferencing the iterator returns the element that the iterator is currently pointing at.
+// begin() returns an iterator representing the beginning of the elements in the container
+// end() returns an iterator representing the element just past the end of the elements
+
 /********** STD::VECTOR ***********/
 // vectors are dynamic arrays
 // defined in vector header
