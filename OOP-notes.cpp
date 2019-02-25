@@ -91,3 +91,17 @@ if (this == &other) {...}
 // its derived classes.
 
 // Rule: Apply the override specifier to every intended override function you write. -- this is very similar to the use of @Override in Java
+class A {
+    virtual void speak() {}
+};
+
+class B : public A {
+    virtual void speak() override {}
+};
+
+// The final specifier will disallow any further override in further-derived classes (show compiler error if try to override)
+
+// Whenever you are dealing with inheritance, you should make any explicit destructors virtual. to make sure the derived class destructor is called which will call Base’s destructor in turn.
+
+
+
