@@ -103,5 +103,9 @@ class B : public A {
 
 // Whenever you are dealing with inheritance, you should make any explicit destructors virtual. to make sure the derived class destructor is called which will call Base’s destructor in turn.
 
-
-
+// How virtual functions work in a program
+// early binding (static binding, function calls are resolved at compile time) vs late binding (dynamic binding, function calls are resolved at runtime)
+// Virtual functions use special type of late binding and a virtual table to find the correct function
+// A virtual table contains one entry for each virtual function that can be called by objects of the class. 
+// Each entry in this table is simply a function pointer that points to the most-derived function accessible by that class.
+// When a class object is created, a pointer, *__vptr is set to point to the virtual table for that class. 
