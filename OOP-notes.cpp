@@ -16,6 +16,38 @@ Fraction f {1, 3};
 Point* p = new Point(1, 2);
 Fraction* f = new Fraction(1, 3);
 
+// NOTE: To instantiate a class using default constructor, no () is needed, otherwise compiler
+// will think you are defining a function with no parameters and return type is that class
+Point p; // correct
+Point p(); // not correct for instantiating a class
+
+
+/********************** Constructor Initializer List ************************************/
+/*
+1. This is initialization instead of assignment
+2. More efficient
+3. const type can be initialized this way (cannot be assigned)
+Rule: Use member initializer lists to initialize your class member variables instead of assignment.
+*/
+// an example:
+class Fraction {
+private:
+    int numerator;
+    int denominator;
+    const int e;
+
+public:
+    Fraction(int n, int d)
+        : numerator(n), denominator(d), e(2.72) {}
+    .....
+};
+
+
+/******** Destructor *****************/
+// A destructor is another special kind of class member function that is executed when an object of that class is destroyed.
+// Whereas constructors are designed to initialize a class, destructors are designed to help clean up.
+
+
 
 /******** const member function *******/
 // A const member function is a member function that guarantees it will not modify
@@ -62,19 +94,56 @@ if (this == &other) {...}
 
 
 /************************ Inheritance ***********************/
-// parent class vs child class, or, base class vs derived class, or, superclass vs subclass
-// Order of construction: most base class first, then derived class, from top to bottom
-// Order of destruction: the other way around, from most-dervied class to most-base class
+// parent class vs child class, or, base class vs derived class, or, superclass vs subclass;
+// Order of construction: most base class first, then derived class, from top to bottom;
+// Order of destruction: the other way around, from most-dervied class to most-base class;
+// Calling base class constructor in derived class constructor: put base class constructor in derived class constructor's
+// initializer list (cannot put in body because body is executed after base class construction is done)
+class Base {
+private:
+    int m_n;
+public:
+    Base(int n) {...}
+};
 
+class Derived : public Base {
+private:
+    double m_x;
+public:
+    Derived(int n, double x) : Base(n), m_x(x) {...}
+}
 // Access specifier for class members:
 // public: can be accessed by any objects
-// protect: accessed by class members, friends and derived class members
+// protected: accessed by class members, friends and derived class members
 // private: by class members and friends only
+class BaseClass {
+private:
+    ...
+protected:
+    ...
+public:
+    ...
+};
 
 // Access specifier for inheritance:
 // public: inherited base members stay with their original accesses (public, protected or private)
 //         use public inheritance unless you have a specific reason to do otherwise
 // private: inherited base members all becomes private when you try to access them through derived class
+// If you do not choose an inheritance type, C++ defaults to private inheritance
+// Public inheritance is the most commonly used type of inheritance. Very rarely will you see other types of inheritance
+// Publicly inherited members remain their original access level in base class (private, protected, or public)
+class DerivedClass : public BaseClass {
+
+};
+
+// Functions in derived class
+// 1. Regular functions that does not coincide with any ones in base class, use as usual
+// 2. Functions that have same signiture as in base class override the ones in base class (when calling from derived class or object)
+// 3. To call base class functions in derived class, use BaseClass::func() explicitly
+// 4. Multiple inheritance: Avoid multiple inheritance unless alternatives lead to more complexity. (Java doesn't support multiple inheritance)
+class DerivedClass : public BaseClass1, public BaseClass2 {
+
+};
 
 
 /************************ Virtual function and Polymorphism ***********************/
@@ -91,3 +160,23 @@ if (this == &other) {...}
 // its derived classes.
 
 // Rule: Apply the override specifier to every intended override function you write. -- this is very similar to the use of @Override in Java
+
+
+
+/***********************  Abstract Classes and Interface Classes *****************/
+/*
+Abstract class:
+To create a pure virtual function, rather than define a body for the function, we simply assign the function the value 0.
+- First, any class with one or more pure virtual functions becomes an abstract base class, which means that it can not be instantiated
+- Second, any derived class must define a body for this function, or that derived class will be considered an abstract base class as well.
+
+we can define pure virtual functions that have also bodies, in this case:
+- the body must be provided separately (not inline)
+- provide a default implementation for a function, but still force any derived classes to provide their own implementation.
+
+Interface class:
+An interface class is a class that has no member variables, and where all of the functions are pure virtual!
+In other words, the class is purely a definition, and has no actual implementation.
+Interfaces are useful when you want to define the functionality that derived classes must implement,
+but leave the details of how the derived class implements that functionality entirely up to the derived class.
+*/

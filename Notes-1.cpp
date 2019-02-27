@@ -90,6 +90,7 @@ const int y = 5; // y is a const l-value
 Point(2, 3) // anonymous object is an r-value
 
 
+
 /********************** Function argument passing *****************************/
 // Three major ways of passing:
 // 1. Pass by value
@@ -140,7 +141,7 @@ Point func() {
 // Return by reference is typically used to return arguments passed by reference
 // to the function back to the caller.
 int& get(vector<int>& v, int k) {
-    return v[k];
+    return v[k]; // v is a vector outside this function, which is passed in by reference
 }
 // Note that returning a reference to a local variable is bad because local
 // variable goes out of scope and is destroyed out of the function
@@ -172,4 +173,22 @@ for (int i : array) {
 Point arr[3] = {Point(1, 2), Point(3, 4), Point(1, 4)};
 for (const Point &i : arr) {
     doAnotherThing(i);
+}
+
+
+/********************** Global variables ******************/
+/*
+Variables declared outside of a function are called global variables.
+Global variables have static duration, which means they are created when the program starts and are destroyed when it ends.
+Global variables have file scope (also informally called “global scope” or “global namespace scope”),
+which means they are visible until the end of the file in which they are declared.
+*/
+// global scope operator (::)
+int value = 5;
+
+int main() {
+    int value = 7; // hides global variable 'value'
+    ::value++; // refers to global variable 'value'
+
+    ....
 }

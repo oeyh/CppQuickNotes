@@ -65,6 +65,7 @@ arr.size()
 
 // declaration and initialization
 std::string myName("Hai");
+std::string herName = "Liu";
 
 // length of a string
 myName.length()
@@ -76,10 +77,23 @@ myName.at(0)
 // string appending
 myName += " Yan";
 
+// find substring
+myName.find('i'); // 2
+myName.find("ba"); // -1, not found
 
 /********** STD::SET ***********/
 
 
+
+/********** STD::UNORDERED_SET ***********/
+#include <unordered_set>
+
+std::unordered_set<int> nums;
+
+// Insert
+nums.insert(3);
+
+//
 
 
 /********** STD::MAP ***********/
@@ -87,3 +101,21 @@ myName += " Yan";
 
 
 /********** STD::DEQUE ***********/
+
+
+
+/********** STD::QUEUE ***********/
+#include <queue>
+
+// FIFO data structure
+std::queue<int> myqueue;
+
+// push to back of queue
+myqueue.push(4);
+// return front of queue
+myqueue.front() += 2;
+// pop front of queue, note that it doesn't return the popped item
+myqueue.pop();
+// get size of queue
+myqueue.size()
+myqueue.empty()
