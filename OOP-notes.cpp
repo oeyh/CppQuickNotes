@@ -151,7 +151,7 @@ class DerivedClass : public BaseClass1, public BaseClass2 {
 // functions through references or pointers to a base class object and therefore
 // facilitate the use of generalized references and pointers to base classes.
 
-// A virtual function call will resolve to a call to the matching (overriding) function
+// A virtual function call will resolve to a call to the matching (overriding) function (same signature and return type)
 // in the most-derived class between base class of the reference/pointer and derived class of the object
 
 // Rule: Never call virtual functions from constructors or destructors
@@ -160,23 +160,51 @@ class DerivedClass : public BaseClass1, public BaseClass2 {
 // its derived classes.
 
 // Rule: Apply the override specifier to every intended override function you write. -- this is very similar to the use of @Override in Java
+class A {
+    virtual void speak() {}
+};
 
+class B : public A {
+    virtual void speak() override {}
+};
 
+// The final specifier will disallow any further override in further-derived classes (show compiler error if try to override)
+class Base final {...};  // cannot inherit class
+void speak() final {...} // cannot override class function
+
+// Whenever you are dealing with inheritance, you should make any explicit destructors virtual. 
+// to make sure the derived class destructor is called which will call Base’s destructor in turn.
+
+// How virtual functions work in a program
+// early binding (static binding, function calls are resolved at compile time) vs late binding (dynamic binding, function calls are resolved at runtime)
+// Virtual functions use special type of late binding and a virtual table to find the correct function
+// A virtual table contains one entry for each virtual function that can be called by objects of the class. 
+// Each entry in this table is simply a function pointer that points to the most-derived function accessible by that class.
+// When a class object is created, a pointer, *__vptr is set to point to the virtual table for that class. 
 
 /***********************  Abstract Classes and Interface Classes *****************/
 /*
-Abstract class:
-To create a pure virtual function, rather than define a body for the function, we simply assign the function the value 0.
-- First, any class with one or more pure virtual functions becomes an abstract base class, which means that it can not be instantiated
-- Second, any derived class must define a body for this function, or that derived class will be considered an abstract base class as well.
+ Abstract class:
+ To create a pure virtual function, rather than define a body for the function, we simply assign the function the value 0.
+ - First, any class with one or more pure virtual functions becomes an abstract base class, which means that it can not be instantiated
+ - Second, any derived class must define a body for this function, or that derived class will be considered an abstract base class as well.
+ */
+class A {
+    ...
+    virtual int getName() = 0;
+    ...
+};
+/*
+ we can define pure virtual functions that have also bodies, in this case:
+ - the body must be provided separately (not inline)
+ - provide a default implementation for a function, but still force any derived classes to provide their own implementation.
+ 
+ Interface class:
+ An interface class is a class that has no member variables, and where all of the functions are pure virtual!
+ In other words, the class is purely a definition, and has no actual implementation.
+ Interfaces are useful when you want to define the functionality that derived classes must implement,
+ but leave the details of how the derived class implements that functionality entirely up to the derived class.
+ */
 
-we can define pure virtual functions that have also bodies, in this case:
-- the body must be provided separately (not inline)
-- provide a default implementation for a function, but still force any derived classes to provide their own implementation.
-
-Interface class:
-An interface class is a class that has no member variables, and where all of the functions are pure virtual!
-In other words, the class is purely a definition, and has no actual implementation.
-Interfaces are useful when you want to define the functionality that derived classes must implement,
-but leave the details of how the derived class implements that functionality entirely up to the derived class.
-*/
+// First, any class with one or more pure virtual functions becomes an abstract base class, which means that it can not be instantiated
+// Second, any derived class must define a body for this function, or that derived class will be considered an abstract base class as well.
