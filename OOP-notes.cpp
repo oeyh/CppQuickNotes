@@ -77,6 +77,41 @@ Cents add(const Cents &c1, const Cents &c2);
 // function call:
 add(Cents(6), Cents(8)) // this is OK because const references are used in function parameters
 
+/********************** Static keyword ******************/
+/** Static member variables **/
+// static member variables are shared by all objects of the class and are not attached to any particular object
+class Something
+{
+public:
+    static int s_value; // declares the static member variable
+};
+Something s;
+s.s_value // access through a particular object
+Something::s_value // access through class name
+
+
+
+/** Static member functions **/
+// static member functions are shared by all objects of the class and are not attached to any particular object
+// Static member functions have two interesting quirks worth noting.
+// First, because static member functions are not attached to an object, they have no this pointer, because this pointer always points to the object that the member function is working on.
+// Second, static member functions can directly access other static members (variables or functions), but not non-static members.
+// This is because non-static members must belong to a class object, and static member functions have no class object to work with!
+class Something
+{
+private:
+    static int s_value;
+public:
+    static int getValue() { return s_value; } // static member function
+};
+
+int Something::s_value = 1; // initializer
+
+int main()
+{
+    std::cout << Something::getValue() << '\n';
+}
+
 
 /************************ operator overloading ***********************/
 /*
@@ -172,15 +207,15 @@ class B : public A {
 class Base final {...};  // cannot inherit class
 void speak() final {...} // cannot override class function
 
-// Whenever you are dealing with inheritance, you should make any explicit destructors virtual. 
+// Whenever you are dealing with inheritance, you should make any explicit destructors virtual.
 // to make sure the derived class destructor is called which will call Base’s destructor in turn.
 
 // How virtual functions work in a program
 // early binding (static binding, function calls are resolved at compile time) vs late binding (dynamic binding, function calls are resolved at runtime)
 // Virtual functions use special type of late binding and a virtual table to find the correct function
-// A virtual table contains one entry for each virtual function that can be called by objects of the class. 
+// A virtual table contains one entry for each virtual function that can be called by objects of the class.
 // Each entry in this table is simply a function pointer that points to the most-derived function accessible by that class.
-// When a class object is created, a pointer, *__vptr is set to point to the virtual table for that class. 
+// When a class object is created, a pointer, *__vptr is set to point to the virtual table for that class.
 
 /***********************  Abstract Classes and Interface Classes *****************/
 /*
@@ -198,7 +233,7 @@ class A {
  we can define pure virtual functions that have also bodies, in this case:
  - the body must be provided separately (not inline)
  - provide a default implementation for a function, but still force any derived classes to provide their own implementation.
- 
+
  Interface class:
  An interface class is a class that has no member variables, and where all of the functions are pure virtual!
  In other words, the class is purely a definition, and has no actual implementation.
