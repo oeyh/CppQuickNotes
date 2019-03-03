@@ -6,6 +6,11 @@
 // Associative: set, map
 // Adapters: stack, queue, priority queue
 
+// One Line Summary
+// forward_list: singly linked list
+// list: doubly linked list
+
+
 // STL iterators
 // Operator* -- Dereferencing the iterator returns the element that the iterator is currently pointing at.
 // begin() returns an iterator representing the beginning of the elements in the container
@@ -129,3 +134,33 @@ myqueue.pop();
 // get size of queue
 myqueue.size()
 myqueue.empty()
+
+
+/*************** PRIORITY_QUEUE ********************/
+#include <queue>
+
+// default is max-oriented pq
+std::priority_queue<int> max_pq;
+
+// for custom type, need to define overloaded operator<
+class Point {
+    ...
+    friend bool operator<(const Point &p1, const Point &p2);
+};
+std::priority_queue<Point> pq;
+
+
+// first, notice declaration of priority_queue
+template<
+    class T,
+    class Container = std::vector<T>,
+    class Compare = std::less<typename Container::value_type>
+> class priority_queue;
+// to declare min-oriented pq
+std::priority_queue<int, std::vector<int>, std::greater<int>> min_pq;
+
+
+// operations
+pq.push();
+Point A = pq.top();
+pq.pop();
